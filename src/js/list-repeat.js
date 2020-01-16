@@ -54,7 +54,7 @@ class DisplayList extends React.Component{
    console.log(type,name);
    const filtermap = this.state.filterMap;
    //if(filtermap.type){
-     filtermap.type = name;
+     filtermap[type] = name;
    //}
    this.setState({
      filterMap:filtermap
@@ -64,19 +64,20 @@ class DisplayList extends React.Component{
   render(){
     const filterConf = [{
       type:'species',
-      arr:['Human', 'Mythology','Other']
+      arr:['Human', 'Alien','Other']
     },
     {
-      type:'Gender',
-      arr:['male', 'female','Other']
+      type:'gender',
+      arr:['Male', 'Female','Other']
     }]
     let items = this.state.items;
-    console.log(items);
     debugger;
-    if(this.state.filtermap){
-      for(let x of this.state.filterMap){
-        console.log(x);
+    if(this.state.filterMap){
+      for(let x in this.state.filterMap){
+        items = items.filter((item)=>item[x]==this.state.filterMap[x])
+
       }
+      console.log(items);
     }
     return (
       <div>
@@ -87,7 +88,7 @@ class DisplayList extends React.Component{
         {filterobj.arr.map(name => (
           <div>
           <input type="checkbox" className="validate" value={name}
-                onClick={() => this.applyFilter(filterobj.type,name)}     />
+                onChange={() => this.applyFilter(filterobj.type,name)}     />
           <label>{name}</label>
           </div>
         ))}
